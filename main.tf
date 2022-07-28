@@ -39,16 +39,7 @@ resource "aws_ecr_lifecycle_policy" "lifecycle_policy" {
 
 locals {
 
-  # Encryption configuration
-  # If encryption type as KMS, use assigned KMS key or otherwise build a new key
-  encryption_configuration = var.encryption_type != "KMS" ? [] : [
-    {
-      encryption_type = "KMS"
-      kms_key         = var.encryption_type == "KMS" && var.kms_key == null ? aws_kms_key.kms_key[0].arn : var.kms_key
-    }
-  ]
-
-  # Image scanning configuration
+    # Image scanning configuration
   # If no image_scanning_configuration block is provided, build one using the default values
   image_scanning_configuration = [
     {
